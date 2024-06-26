@@ -8,14 +8,12 @@ from config import configuration
 def main():
     spark = SparkSession.builder.appName("SmartCityStreaming") \
         .config("spark.jars.packages",
-                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
+                "org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.0,"
                 "org.apache.hadoop:hadoop-aws:3.3.1,"
-                "com.amazonaws:aws-java-sdk:1.11.469"
-                #"org.apache.hadoop:hadoop-common:jar:3.3.3") \
+                "com.amazonaws:aws-java-sdk:1.12.196") \
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.fs.s3a.access.key", configuration.get('AWS_ACCESS_KEY')) \
         .config("spark.hadoop.fs.s3a.secret.key", configuration.get('AWS_SECRET_KEY')) \
-        .config("spark.hadoop.fs.s3a.endpoint", configuration.get('ENDPOINT')) \
         .config('spark.hadoop.fs.s3a.aws.credentials.provider',
                 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider') \
         .getOrCreate()
@@ -114,17 +112,16 @@ def main():
     # #join all the dfs with id and timestamp
     # join
 
-
     query1 = streamWriter(vehicleDF, 's3a://tutorial-car-telemetry-realtime-raw/checkpoints/vehicle_data',
-                          's3a://tutorial-car-telemetry-realtime-raw/data/vehicle_data')
+                            's3a://tutorial-car-telemetry-realtime-raw/data/vehicle_data')
     query2 = streamWriter(gpsDF, 's3a://tutorial-car-telemetry-realtime-raw/checkpoints/gps_data',
-                          's3a://tutorial-car-telemetry-realtime-raw/data/gps_data')
+                            's3a://tutorial-car-telemetry-realtime-raw/data/gps_data')
     query3 = streamWriter(trafficDF, 's3a://tutorial-car-telemetry-realtime-raw/checkpoints/traffic_data',
-                          's3a://tutorial-car-telemetry-realtime-raw/data/traffic_data')
+                            's3a://tutorial-car-telemetry-realtime-raw/data/traffic_data')
     query4 = streamWriter(weatherDF, 's3a://tutorial-car-telemetry-realtime-raw/checkpoints/weather_data',
-                          's3a://tutorial-car-telemetry-realtime-raw/data/weather_data')
+                            's3a://tutorial-car-telemetry-realtime-raw/data/weather_data')
     query5 = streamWriter(emergencyDF, 's3a://tutorial-car-telemetry-realtime-raw/checkpoints/emergency_data',
-                          's3a://tutorial-car-telemetry-realtime-raw/data/emergency_data')
+                            's3a://tutorial-car-telemetry-realtime-raw/data/emergency_data')
 
     query5.awaitTermination()
 
