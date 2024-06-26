@@ -2,7 +2,6 @@ import time
 import uuid
 from datetime import datetime, timedelta
 import random
-
 import os
 from confluent_kafka import SerializingProducer
 import simplejson as json

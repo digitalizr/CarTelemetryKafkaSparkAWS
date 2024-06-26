@@ -1,5 +1,7 @@
 #version: '3'
 
+version: '3'
+
 # name of modules used by command
 x-spark-common: &spark-common
   image: bitnami/spark:latest
